@@ -855,13 +855,13 @@ class HTML2Text(html.parser.HTMLParser):
             self.outcount += 1
 
     def handle_data(self, data: str, entity_char: bool = False) -> None:
+        data = data.strip()
         if not data:
             # Data may be empty for some HTML entities. For example,
             # LEFT-TO-RIGHT MARK.
             return
 
         if self.stressed:
-            data = data.strip()
             self.stressed = False
             self.preceding_stressed = True
         elif self.preceding_stressed:
@@ -899,7 +899,7 @@ class HTML2Text(html.parser.HTMLParser):
 
     def charref(self, name: str) -> str:
         if name[0] in ["x", "X"]:
-            c = int(name[1:], 16)
+            c = int(name[1:5], 16)
         else:
             c = int(name)
 
